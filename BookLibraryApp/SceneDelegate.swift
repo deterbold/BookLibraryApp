@@ -1,22 +1,68 @@
-//
-//  SceneDelegate.swift
-//  BookLibraryApp
-//
-//  Created by Miguel Sicart on 04/08/2025.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
+        // If using a storyboard, the `window` property will automatically be configured and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        // Ensure we have a valid window scene
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        // Create the window
+        window = UIWindow(windowScene: windowScene)
+        
+        // Create the root view controller
+        let libraryViewController = LibraryViewController()
+        
+        // Wrap it in a navigation controller
+        let navigationController = UINavigationController(rootViewController: libraryViewController)
+        
+        // Configure navigation controller appearance
+        configureNavigationControllerAppearance(navigationController)
+        
+        // Set the root view controller
+        window?.rootViewController = navigationController
+        
+        // Make the window visible
+        window?.makeKeyAndVisible()
+    }
+    
+    private func configureNavigationControllerAppearance(_ navigationController: UINavigationController) {
+        // Configure navigation bar appearance
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.backgroundColor = .systemBackground
+        navigationBarAppearance.titleTextAttributes = [
+            .foregroundColor: UIColor.label,
+            .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
+        ]
+        navigationBarAppearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor.label,
+            .font: UIFont.systemFont(ofSize: 34, weight: .bold)
+        ]
+        
+        navigationController.navigationBar.standardAppearance = navigationBarAppearance
+        navigationController.navigationBar.compactAppearance = navigationBarAppearance
+        navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        
+        // Enable large titles
+        navigationController.navigationBar.prefersLargeTitles = true
+        
+        // Configure toolbar appearance
+        let toolbarAppearance = UIToolbarAppearance()
+        toolbarAppearance.configureWithOpaqueBackground()
+        toolbarAppearance.backgroundColor = .systemBackground
+        
+        navigationController.toolbar.standardAppearance = toolbarAppearance
+        navigationController.toolbar.compactAppearance = toolbarAppearance
+        
+        // Set tint color for buttons and controls
+        navigationController.navigationBar.tintColor = .systemBlue
+        navigationController.toolbar.tintColor = .systemBlue
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -46,7 +92,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
-
